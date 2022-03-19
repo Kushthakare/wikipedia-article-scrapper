@@ -1,0 +1,86 @@
+# WIKIPEDIA SCRAPPER APP
+
+import wikipedia
+from PIL import Image,ImageTk
+from tkinter import *
+from tkinter.font import Font
+var= Tk() #variable for window
+var.geometry('800x600')
+var.resizable(width=False,height=False)#to fix the window
+
+bg=ImageTk.PhotoImage(file="C:/Users/ASUS/Downloads/christmas1.png")# to add  bg image
+lbl=Label(var,image=bg).place(x=0,y=0,relheight=1,relwidth=1)
+
+var.title("WIKI-XPLORE")
+var.configure()
+
+font1=Font(family="Times New Roman",size=20,weight="bold",)
+Label(var,text="WIKI-XPLORE",font=font1).pack(pady=10)#title
+
+frame=Frame(var)
+data=StringVar()
+
+def Random():#function for getting random articles
+    ans1=wikipedia.random()
+    ans=wikipedia.summary(ans1)
+    Clear()
+    textbox.insert(0.0,ans)
+
+def Clear():#function for clearing textbox
+   textbox.delete(0.0,END)
+
+def hindi():#function for search in hindi
+
+   wikipedia.set_lang('hi')
+   data=wikipedia.summary(entry.get())
+   Clear()
+   textbox.insert(0.0,data)
+
+
+def Search():#function for search
+   data=wikipedia.page(entry.get()).content
+   Clear()
+   textbox.insert(0.0,data)
+
+font2=Font(family="Calibri Bold",size=12)#font family
+font3=Font(family="Subway",size=10)
+
+result=Frame(var)#for label frame
+result.pack(padx=1)
+Label(result,text="Enter Your Search",font=font2,fg='red',bg='white smoke').pack(side=LEFT)# adding text
+
+button_frame=Frame(var)#frame for buttons
+button_frame.pack(pady=15)
+
+clrbutton=Button(result,text=" X ",fg='red',font=('BRITTANIC BOLD',12),command=Clear,bg='white',width=7,height=1,padx=0,pady=0)#button
+clrbutton.pack(side=RIGHT,padx=0)#to crete button with text as clr
+
+button=Button(button_frame,text="Search",fg='blue',width=7,height=1,font=('times',12),command=Search,padx=0,pady=0)#button
+button.pack(side=LEFT,padx=0)#to create button with text as search
+random=Button(button_frame,text="Random",fg='blue',width=7,height=1,font=('times',12),command=Random,padx=0,pady=0)#button
+random.pack(side=LEFT,padx=0)#to create button with text as random
+hindi=Button(button_frame,text="Hindi",fg='blue',width=7,height=1,font=('times',12),command=hindi,padx=0,pady=0)#button
+hindi.pack(side=LEFT,padx=0)#to create button with text as hindi
+
+entry=Entry(result,width=40,font=('Dauphin',14),fg='grey') #TO add search entry
+entry.pack(padx=0,pady=0)
+
+frame1=Frame(var)#text box frame
+frame1.pack(pady=5)
+
+ver_scroll=Scrollbar(frame1)
+ver_scroll.pack(side=RIGHT,fill=Y)#vertical scrollbar dec
+
+hor_scroll=Scrollbar(frame1)
+hor_scroll.pack(side=BOTTOM,fill=X)#horizontal scrollbar dec
+
+textbox=Text(frame1,font=('Lucida Console',12),yscrollcommand=ver_scroll.set,wrap="none",xscrollcommand=hor_scroll.set,
+             bg='white',width=98,height=45)#text box
+textbox.pack(padx=7,pady=7)
+
+ver_scroll.config(command=textbox.yview)#configuring scrolls
+hor_scroll.config(command=textbox.xview,orient='horizontal')
+
+
+var.mainloop()#to execute tkinter window
+
